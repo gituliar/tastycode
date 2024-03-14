@@ -1,7 +1,6 @@
 # TastyCode
 
-[tastycode.dev](https://tastycode.dev) is a blog about programming. This repository contains
-accompanying C++ code to reproduce examples discussed in TastyCode.
+This repository contains accompanying code for the [TastyCode](https://tastycode.dev) blog. 
 
 
 ## Build

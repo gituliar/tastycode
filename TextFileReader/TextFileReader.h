@@ -1,8 +1,36 @@
 #pragma once
 
+#include <cstring>
 #include <fstream>
 
-#include "tasty.h"
+
+// ---- tasty.h -----------------------------------------------------------------------------------
+// 
+#include <filesystem>
+#include <string>
+#include <vector>
+
+using c8 = char;
+using f32 = float;
+using f64 = double;
+using i8 = int8_t;
+using i16 = int16_t;
+using i32 = int32_t;
+using i64 = int64_t;
+using u8 = uint8_t;
+using u16 = uint16_t;
+using u32 = uint32_t;
+using u64 = uint64_t;
+
+using std::string;
+using std::string_view;
+using std::vector;
+
+namespace fs = std::filesystem;
+
+using Error = std::string;
+// 
+// ---- tasty.h -----------------------------------------------------------------------------------
 
 
 namespace tasty
@@ -85,16 +113,13 @@ public:
     };
 
 
-    bool
-        eof() const
-    {
-        return std::feof(m_src);
-    };
-
-
+    /// @brief Loads a piece of text to the internal buffer from the file
+    /// @param pos 
+    /// @return True when new data is available to consume with buf() method
     Error
         read(u64 pos = 0)
     {
+        auto pos_ = m_size - m_cursor;
         if (m_size = std::fread(m_buf + pos, 1, m_capacity - pos, m_src); !m_size) {
             if (std::ferror(m_src))
                 return "TextFileReader::read : Fail to read : errno = " + std::to_string(m_size);
@@ -119,7 +144,7 @@ public:
 
             /// No \n found
             ///
-            if (eof()) {
+            if (std::feof(m_src)) {
                 m_line = string_view(m_buf + m_cursor, m_size - m_cursor);
                 return m_cursor < m_size;
             }
@@ -136,8 +161,6 @@ public:
                 err = "TextFileReader::readline : " + err;
                 return false;
             }
-
-            m_cursor = 0;
         } while (m_size);
 
         err = "TextFileReader::readline : EOF";

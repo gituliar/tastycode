@@ -4,7 +4,7 @@
 #include <fstream>
 
 
-// ---- tasty.h -----------------------------------------------------------------------------------
+// ---- tasty.h ------------------------------------------------------------------------------------
 // 
 #include <filesystem>
 #include <string>
@@ -30,7 +30,7 @@ namespace fs = std::filesystem;
 
 using Error = std::string;
 // 
-// ---- tasty.h -----------------------------------------------------------------------------------
+// ---- tasty.h ------------------------------------------------------------------------------------
 
 
 namespace tasty
@@ -64,6 +64,11 @@ public:
         if (auto err = close(); !err.empty())
             std::cerr << err << std::endl;
     };
+
+    //  Declare as non-copyable
+    //
+    TextFileReader(const TextFileReader&) = delete;
+    TextFileReader& operator=(const TextFileReader& other) = delete;
 
 
     string_view 
@@ -113,22 +118,26 @@ public:
     };
 
 
-    /// @brief Loads a piece of text to the internal buffer from the file
-    /// @param pos 
-    /// @return True when new data is available to consume with buf() method
-    Error
-        read(u64 pos = 0)
+    bool
+        read(Error& err)
     {
-        auto pos_ = m_size - m_cursor;
-        if (m_size = std::fread(m_buf + pos, 1, m_capacity - pos, m_src); !m_size) {
-            if (std::ferror(m_src))
-                return "TextFileReader::read : Fail to read : errno = " + std::to_string(m_size);
+        if (m_size = std::fread(m_buf + m_cursor, 1, m_capacity - m_cursor, m_src); !m_size) {
+            if (std::ferror(m_src)) {
+                err = "TextFileReader::read : Fail to read : errno = " + std::to_string(m_size);
+                return false;
+            }
+            else if (std::feof(m_src)) {
+                return false;
+            }
+
+            err = "TextFileReader::read : unknown error";
+            return false;
         }
 
-        m_size += pos;
+        m_size += m_cursor;
         m_cursor = 0;
 
-        return "";
+        return true;
     };
 
 
@@ -142,28 +151,29 @@ public:
                 return true;
             }
 
-            /// No \n found
-            ///
+            //  No \n found
+            //
             if (std::feof(m_src)) {
                 m_line = string_view(m_buf + m_cursor, m_size - m_cursor);
                 return m_cursor < m_size;
             }
 
-            /// Copy tail to the beginning
-            ///
+            //  Copy tail to the beginning
+            //
             if (m_cursor < m_size) {
                 std::memcpy(m_buf, m_buf + m_cursor, m_size - m_cursor);
             }
+            m_cursor = m_size - m_cursor;
 
-            /// Consume more data (do not update m_cursor)
-            ///
-            if (err = read(m_size - m_cursor); !err.empty()) {
+            //  Read more data from file
+            //
+            if (!read(err)) {
                 err = "TextFileReader::readline : " + err;
                 return false;
             }
         } while (m_size);
 
-        err = "TextFileReader::readline : EOF";
+        err = "TextFileReader::readline : unreachable";
         return false;
     };
 };

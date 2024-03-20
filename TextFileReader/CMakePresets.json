@@ -31,14 +31,11 @@
       "vendor": {
         "microsoft.com/VisualStudioSettings/CMake/1.0": { "hostOS": [ "Linux" ] },
         "microsoft.com/VisualStudioRemoteSettings/CMake/1.0": { "sourceDir": "$env{HOME}/.vs/$ms{projectDirName}" }
-      },
-      "environment": {
-        "VCPKG_ROOT": "/home/sasha/src/vcpkg"
       }
     },
     {
       "name": "win1x-debug",
-      "displayName": "Win10 Debug",
+      "displayName": "Win1x Debug",
       "description": "Target Windows with the Visual Studio development environment.",
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/.out/${presetName}",
@@ -54,7 +51,7 @@
     },
     {
       "name": "win1x-release",
-      "displayName": "Win10 Release",
+      "displayName": "Win1x Release",
       "description": "Target Windows with the Visual Studio development environment.",
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/.out/${presetName}",

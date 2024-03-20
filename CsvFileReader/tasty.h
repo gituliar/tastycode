@@ -13,9 +13,8 @@ namespace fs = std::filesystem;
 namespace tasty
 {
 
-/// Common Types
-/// ------------
-///
+// ---- Common Types ------------------------------------------------------------------------------
+// 
 using c8 = char;
 using f32 = float;
 using f64 = double;
@@ -36,8 +35,8 @@ using std::string_view;
 using std::vector;
 
 
-/// ---- Error Type ------------------------------------------------------------
-///
+// ---- Error Type --------------------------------------------------------------------------------
+// 
 using Error = std::string;
 
 }

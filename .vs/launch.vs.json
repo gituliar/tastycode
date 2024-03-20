@@ -1,0 +1,13 @@
+{
+  "version": "0.2.1",
+  "defaults": {},
+  "configurations": [
+    {
+      "type": "default",
+      "project": "TextFileReader\\CMakeLists.txt",
+      "projectTarget": "TextFileReader_test.exe",
+      "name": "TextFileReader_test.exe",
+      "currentDir": "${workspaceRoot}\\TextFileReader"
+    }
+  ]
+}

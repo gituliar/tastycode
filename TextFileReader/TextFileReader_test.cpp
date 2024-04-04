@@ -1,3 +1,10 @@
+//
+//  MIT License
+//
+//  Copyright (c) 2024 Oleksandr Gituliar
+//
+//  TastyCode - https://tastycode.dev
+//
 #include <gtest/gtest.h>
 
 #include "TextFileReader.h"

@@ -1,3 +1,10 @@
+//
+//  MIT License
+//
+//  Copyright (c) 2024 Oleksandr Gituliar
+//
+//  TastyCode - https://tastycode.dev
+//
 #include <iostream>
 
 #include "tracy/Tracy.hpp"

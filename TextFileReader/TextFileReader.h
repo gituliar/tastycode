@@ -1,3 +1,10 @@
+//
+//  MIT License
+//
+//  Copyright (c) 2024 Oleksandr Gituliar
+//
+//  TastyCode - https://tastycode.dev
+//
 #pragma once
 
 #include <cstring>
